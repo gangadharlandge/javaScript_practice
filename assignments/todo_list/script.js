@@ -9,7 +9,7 @@ function newTodo(){
         alert("You should enter something!")
     }else{
     const p = document.createElement('p');
-    p.innerHTML = c + ' ' + todoInput.value;
+    p.innerHTML = todoInput.value;
     p.setAttribute('key',c);
     c += 1
     parentDiv.append(p)
