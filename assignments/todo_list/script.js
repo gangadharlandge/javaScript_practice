@@ -1,23 +1,33 @@
-const todoInput = document.querySelector('input');
-const addBtn = document.querySelector('button');
-const parentDiv = document.querySelector('div.todos');
-addBtn.addEventListener('click',newTodo);
-parentDiv.addEventListener('click',removeTodo);
-let c = 0
-function newTodo(){
-    if (todoInput.value === ""){
-        alert("You should enter something!")
-    }else{
-    const p = document.createElement('p');
-    p.innerHTML = todoInput.value;
-    p.setAttribute('key',c);
-    c += 1
-    parentDiv.append(p)
-    todoInput.value = "";
-    }
+const Btn = document.querySelector('button');
+const todosDiv = document.querySelector('div.todos');
+let todos = [];
+async function main(){
+    try{
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+        const json = await response.json();
+        todos = json.slice(0,10);
+        todos.forEach((todo,index) => {
+            const newTodo = document.createElement('p');
+            newTodo.setAttribute('key',index);
+            newTodo.innerHTML = todo.title;
+            todosDiv.appendChild(newTodo);
 
+
+        })
+    } catch(e){
+        console.log(e);
+    }
 }
-function removeTodo(event){
-    const element = event.target
-    element.remove()
-}
+
+Btn.addEventListener('click',function(){
+    todosDiv.innerHTML = '';
+    todos.filter(todo => todo.completed).forEach((todo,index) => {
+        const newTodo = document.createElement('p');
+            newTodo.setAttribute('key',index);
+            newTodo.innerHTML = todo.title;
+            todosDiv.appendChild(newTodo);
+
+    })
+})
+
+main();
